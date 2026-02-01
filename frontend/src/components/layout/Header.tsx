@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { ThemeToggle } from "../ui/ThemeToggle"
+import { BellRing } from "lucide-react"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -26,11 +27,11 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">EWS</span>
+              <span className="text-white font-bold text-xl"><BellRing className="w-7 h-7 text-white" /></span>
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                Early Warning System
+                EduAlert
               </h1>
               <p className="text-xs text-orange-600 dark:text-orange-400">
                 Manipal University Jaipur
