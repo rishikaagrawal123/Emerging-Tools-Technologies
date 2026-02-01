@@ -12,7 +12,95 @@ import {
 } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
+const techStack = [
+  {
+    name: "Machine Learning",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSz0_2T7QvYteuK6hRVylPfdcJlNwoKW1-Msg&s",
+    description: "Predictive risk modeling",
+  },
+  {
+    name: "LLMs & RAG",
+    image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80",
+    description: "Contextual explanations",
+  },
+  {
+    name: "Vector Database",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80",
+    description: "Semantic search & retrieval",
+  },
+  {
+    name: "Docker & Kubernetes",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRduCbNCZimPTZV5YzV0pc_pdxBffP84mVDMg&s",
+    description: "Scalable containerized deployment",
+  },
+  
+  
+]
 
+// --- Infinite Carousel ---
+function TechCarousel() {
+  const trackRef = useRef<HTMLDivElement>(null)
+
+  // Clone items into the DOM once so the loop is seamless
+  useEffect(() => {
+    if (trackRef.current && trackRef.current.children.length === techStack.length) {
+      const clone = trackRef.current.innerHTML
+      trackRef.current.insertAdjacentHTML("beforeend", clone)
+    }
+  }, [])
+
+  return (
+    <div className="overflow-hidden w-full">
+      <div
+        ref={trackRef}
+        className="flex gap-6"
+        style={{
+          animation: "techScroll 28s linear infinite",
+        }}
+      >
+        {techStack.map((tech, i) => (
+          <div
+            key={i}
+            className="flex-shrink-0 w-72 group"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-lg border border-orange-200 dark:border-orange-900/30 bg-white dark:bg-gray-800">
+              {/* Image */}
+              <div className="relative h-44 overflow-hidden">
+                <img
+                  src={tech.image}
+                  alt={tech.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                {/* Gradient overlay on image */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                {/* Tech name badge floating on image */}
+                <div className="absolute bottom-3 left-3">
+                  <span className="inline-block bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-orange-600 dark:text-orange-400 text-xs font-bold px-3 py-1 rounded-full shadow">
+                    {tech.name}
+                  </span>
+                </div>
+              </div>
+
+              {/* Card body */}
+              <div className="p-4">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {tech.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes techScroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  )
+}
 export function Workflow() {
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -138,23 +226,8 @@ export function Workflow() {
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
             Powered By Modern Technologies
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              "Machine Learning",
-              "LLMs & RAG",
-              "Vector Database",
-              "Docker & Kubernetes",
-            ].map((tech, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-shadow"
-              >
-                <span className="font-semibold text-gray-700 dark:text-gray-300 text-center">
-                  {tech}
-                </span>
-              </div>
-            ))}
-          </div>
+          
+          <TechCarousel />
         </div>
       </div>
     </section>
