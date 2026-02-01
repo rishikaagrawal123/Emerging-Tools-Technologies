@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ArrowRight, BarChart3, Users } from "lucide-react"
 import { EncryptedText } from "@/components/ui/encrypted-text"
+import CountUp from "../ui/CountUp"
 
 export function Hero() {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -10,6 +11,7 @@ export function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null)
   
   const [currentImage, setCurrentImage] = useState(0)
+  const [encryptKey, setEncryptKey] = useState(0)
   
   const images = [
     "/manipal.png",
@@ -24,6 +26,14 @@ export function Hero() {
     }, 5000)
     return () => clearInterval(interval)
   }, [images.length])
+
+  // Re-trigger EncryptedText every 6 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEncryptKey((prev) => prev + 1)
+    }, 6000)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -91,6 +101,7 @@ export function Hero() {
             Empowering Education with{" "}
             <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
               <EncryptedText
+                key={encryptKey}
                 text="Early Intervention"
                 encryptedClassName="opacity-60"
                 revealedClassName="opacity-100"
@@ -127,7 +138,14 @@ export function Hero() {
                 <Users className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                1000+
+                <CountUp
+  from={0}
+  to={1000}
+  separator=","
+  direction="up"
+  duration={1}
+  className="count-up-text"
+/>+
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Students Monitored
@@ -139,7 +157,14 @@ export function Hero() {
                 <BarChart3 className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                95%
+                <CountUp
+  from={0}
+  to={95}
+  separator=","
+  direction="up"
+  duration={1}
+  className="count-up-text"
+/>%
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Early Detection Rate
